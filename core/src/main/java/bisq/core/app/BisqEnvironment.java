@@ -125,7 +125,7 @@ public class BisqEnvironment extends StandardEnvironment {
             return Paths.get(System.getProperty("user.home"), ".local", "share").toString();
     }
 
-    private static String appDataDir(String userDataDir, String appName) {
+    public static String appDataDir(String userDataDir, String appName) {
         //TODO fix for changing app name form bisq to Bisq (add dir renamed as well)
         final String newAppName = "Bisq";
         if (appName.equals(newAppName)) {

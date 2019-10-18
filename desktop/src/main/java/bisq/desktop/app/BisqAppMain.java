@@ -22,6 +22,7 @@ import bisq.desktop.common.view.guice.InjectorViewFactory;
 import bisq.desktop.setup.DesktopPersistedDataHost;
 
 import bisq.core.app.BisqExecutable;
+import bisq.core.util.PrintUtil;
 
 import bisq.common.UserThread;
 import bisq.common.app.AppModule;
@@ -44,18 +45,13 @@ public class BisqAppMain extends BisqExecutable {
         super("Bisq Desktop", "bisq-desktop", Version.VERSION);
     }
 
-    /* @Nullable
-     private BisqHttpApiServer bisqHttpApiServer;*/
-    /* @Nullable
-    private BisqGrpcServer bisqGrpcServer;
-    */
     public static void main(String[] args) throws Exception {
         if (BisqExecutable.setupInitialOptionParser(args)) {
             // For some reason the JavaFX launch process results in us losing the thread context class loader: reset it.
             // In order to work around a bug in JavaFX 8u25 and below, you must include the following code as the first line of your realMain method:
             Thread.currentThread().setContextClassLoader(BisqAppMain.class.getClassLoader());
-
-            new BisqAppMain().execute(args);
+            PrintUtil.printEverything();
+//            new BisqAppMain().execute(args);
         }
     }
 
@@ -63,11 +59,6 @@ public class BisqAppMain extends BisqExecutable {
     public void onSetupComplete() {
         log.debug("onSetupComplete");
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // First synchronous execution tasks
-    ///////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void configUserThread() {
@@ -80,29 +71,18 @@ public class BisqAppMain extends BisqExecutable {
         BisqApp.setAppLaunchedHandler(application -> {
             BisqAppMain.this.application = (BisqApp) application;
 
-            // Necessary to do the setup at this point to prevent Bouncy Castle errors
             CommonSetup.setup(BisqAppMain.this.application);
-            // Map to user thread!
             UserThread.execute(this::onApplicationLaunched);
         });
 
         Application.launch(BisqApp.class);
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // As application is a JavaFX application we need to wait for onApplicationLaunched
-    ///////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     protected void onApplicationLaunched() {
         super.onApplicationLaunched();
         application.setGracefulShutDownHandler(this);
     }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////
-    // We continue with a series of synchronous execution tasks
-    ///////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected AppModule getModule() {
@@ -125,30 +105,6 @@ public class BisqAppMain extends BisqExecutable {
 
     @Override
     protected void startApplication() {
-        // We need to be in user thread! We mapped at launchApplication already...
-
-        // Once the UI is ready we get onApplicationStarted called and start the setup there
         application.startApplication(this::onApplicationStarted);
-    }
-
-    @Override
-    protected void onApplicationStarted() {
-        super.onApplicationStarted();
-
-       /* if (runWithHttpApi()) {
-            bisqHttpApiServer = new BisqHttpApiServer();
-        }*/
-        /*
-        if (runWithGrpcApi()) {
-            bisqGrpcServer = new BisqGrpcServer();
-        }*/
-    }
-
-    private boolean runWithHttpApi() {
-        return bisqEnvironment.getDesktopWithHttpApi().toLowerCase().equals("true");
-    }
-
-    private boolean runWithGrpcApi() {
-        return bisqEnvironment.getDesktopWithGrpcApi().toLowerCase().equals("true");
     }
 }

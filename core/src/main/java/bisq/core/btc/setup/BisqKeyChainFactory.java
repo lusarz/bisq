@@ -29,7 +29,7 @@ import org.bitcoinj.wallet.UnreadableWalletException;
 
 import com.google.common.collect.ImmutableList;
 
-class BisqKeyChainFactory implements KeyChainFactory {
+public class BisqKeyChainFactory implements KeyChainFactory {
     private final boolean useBitcoinDeterministicKeyChain;
 
     public BisqKeyChainFactory(boolean useBitcoinDeterministicKeyChain) {

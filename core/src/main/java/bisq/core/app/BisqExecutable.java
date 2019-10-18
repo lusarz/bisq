@@ -63,6 +63,8 @@ import java.nio.file.Paths;
 
 import java.io.IOException;
 
+import java.util.Arrays;
+
 import lombok.extern.slf4j.Slf4j;
 
 import static bisq.core.app.BisqEnvironment.DEFAULT_APP_NAME;
@@ -105,6 +107,7 @@ public abstract class BisqExecutable implements GracefulShutDownHandler, BisqSet
         OptionSet options;
         try {
             options = parser.parse(args);
+            System.out.println(Arrays.toString(options.asMap().entrySet().toArray()));
         } catch (OptionException ex) {
             System.err.println("error: " + ex.getMessage());
             System.exit(EXIT_FAILURE);
