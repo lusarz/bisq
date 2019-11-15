@@ -159,7 +159,7 @@ public class SendPrivateNotificationWindow extends Overlay<SendPrivateNotificati
                                         .onClose(SendPrivateNotificationWindow.this::hide).show();
                             }
                         }))
-                    new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                    showInvalidKeyPopup();
             }
         });
 

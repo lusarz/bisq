@@ -158,7 +158,7 @@ public class SendAlertMessageWindow extends Overlay<SendAlertMessageWindow> {
                             keyInputTextField.getText()))
                         hide();
                     else
-                        new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                        showInvalidKeyPopup();
                 }
             }
         });
@@ -169,7 +169,7 @@ public class SendAlertMessageWindow extends Overlay<SendAlertMessageWindow> {
                 if (removeAlertMessageHandler.handle(keyInputTextField.getText()))
                     hide();
                 else
-                    new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                    showInvalidKeyPopup();
             }
         });
 

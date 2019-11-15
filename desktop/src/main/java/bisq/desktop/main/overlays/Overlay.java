@@ -23,6 +23,7 @@ import bisq.desktop.components.AutoTooltipCheckBox;
 import bisq.desktop.components.AutoTooltipLabel;
 import bisq.desktop.components.BusyAnimation;
 import bisq.desktop.main.MainView;
+import bisq.desktop.main.overlays.popups.Popup;
 import bisq.desktop.util.FormBuilder;
 import bisq.desktop.util.GUIUtil;
 import bisq.desktop.util.Transitions;
@@ -245,6 +246,10 @@ public abstract class Overlay<T extends Overlay> {
     }
 
     protected void onHidden() {
+    }
+
+    protected void showInvalidKeyPopup() {
+        new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
     }
 
     protected void cleanup() {

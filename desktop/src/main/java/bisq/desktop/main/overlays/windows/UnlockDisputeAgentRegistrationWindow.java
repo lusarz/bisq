@@ -19,7 +19,6 @@ package bisq.desktop.main.overlays.windows;
 
 import bisq.desktop.components.InputTextField;
 import bisq.desktop.main.overlays.Overlay;
-import bisq.desktop.main.overlays.popups.Popup;
 
 import bisq.core.locale.Res;
 
@@ -135,7 +134,7 @@ public class UnlockDisputeAgentRegistrationWindow extends Overlay<UnlockDisputeA
             if (privKeyHandler.checkKey(keyInputTextField.getText()))
                 hide();
             else
-                new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                showInvalidKeyPopup();
         });
 
         Button closeButton = buttonButtonTuple2.second;

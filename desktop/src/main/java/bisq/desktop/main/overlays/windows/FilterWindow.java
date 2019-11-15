@@ -20,7 +20,6 @@ package bisq.desktop.main.overlays.windows;
 import bisq.desktop.components.AutoTooltipButton;
 import bisq.desktop.components.InputTextField;
 import bisq.desktop.main.overlays.Overlay;
-import bisq.desktop.main.overlays.popups.Popup;
 
 import bisq.core.filter.Filter;
 import bisq.core.filter.FilterManager;
@@ -227,7 +226,7 @@ public class FilterWindow extends Overlay<FilterWindow> {
                     keyInputTextField.getText()))
                 hide();
             else
-                new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                showInvalidKeyPopup();
         });
 
         Button removeFilterMessageButton = new AutoTooltipButton(Res.get("filterWindow.remove"));
@@ -236,7 +235,7 @@ public class FilterWindow extends Overlay<FilterWindow> {
                 if (removeFilterMessageHandler.handle(keyInputTextField.getText()))
                     hide();
                 else
-                    new Popup<>().warning(Res.get("shared.invalidKey")).width(300).onClose(this::blurAgain).show();
+                    showInvalidKeyPopup();
             }
         });
 
